@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPlay — Área do Aluno</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Edu<span>Play</span> 🚀</a>
+  <div>
+    <a href="index.html">🏠 Início</a>
+    <a href="cursos.html">📚 Cursos</a>
+    <a href="cadastro.html">📝 Cadastro</a>
+    <a href="dashboard.html" class="ativo">📊 Aluno</a>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="tela-login">
+  <div class="dash-login">
+    <div class="emoji">🔐</div>
+    <h2>Área do Aluno</h2>
+    <p>Demo: matrícula <strong>1001</strong> · senha <strong>123456</strong></p>
+    <div class="campo"><label>Matrícula</label><input id="login-mat" value="1001"></div>
+    <div class="campo"><label>Senha</label><input id="login-senha" type="password" value="123456"></div>
+    <button class="btn-bloco" onclick="entrar()">Entrar 🚀</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="tela-dash" style="display:none">
+  <div class="dash-area">
+
+    <div class="dash-topo">
+      <div>
+        <h2>Olá, Pedro Henrique! 👋</h2>
+        <small>Matrícula: #1001 · Turma: M-LP-1 · Matutino</small>
+      </div>
+      <button class="btn-sair" onclick="sair()">Sair 🚪</button>
+    </div>
+
+    <div class="banner">
+      <div>
+        <h3>Bem-vindo de volta! 🚀</h3>
+        <p>Curso: Lógica de Programação: Criando Meu Primeiro Jogo</p>
+        <p style="margin-top:6px; opacity:.75; font-size:.85rem;">Continue assim, você está indo muito bem! 🌟</p>
+      </div>
+      <div class="emoji">🎮</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="emoji">📚</div><div class="valor">18</div><div class="rotulo">Aulas no Total</div></div>
+      <div class="stat"><div class="emoji">✅</div><div class="valor">15</div><div class="rotulo">Presenças</div></div>
+      <div class="stat"><div class="emoji">📝</div><div class="valor">3</div><div class="rotulo">Provas</div></div>
+      <div class="stat"><div class="emoji">⭐</div><div class="valor">8.3</div><div class="rotulo">Média Final</div></div>
+    </div>
+
+    <div class="duas-col">
+      <div class="caixa">
+        <h4>📅 Frequência</h4>
+        <div class="anel">83%</div>
+        <p style="text-align:center; font-size:.85rem; color:#555;">15 de 18 aulas</p>
+        <p style="text-align:center; font-size:.85rem; color:#4CAF50; font-weight:bold; margin-top:6px;">✅ Regular</p>
+      </div>
+      <div class="caixa">
+        <h4>👤 Meus Dados</h4>
+        <div class="linha-dado"><span>Nome</span><span>Pedro Henrique Silva</span></div>
+        <div class="linha-dado"><span>Idade</span><span>12 anos</span></div>
+        <div class="linha-dado"><span>Responsável</span><span>Jane C. da Silva</span></div>
+        <div class="linha-dado"><span>Professor</span><span>Carlos A. Souza</span></div>
+        <div class="linha-dado"><span>Status</span><span style="color:#4CAF50;">✅ Ativo</span></div>
+      </div>
+    </div>
+
+    <div class="caixa" style="margin-bottom:24px;">
+      <h4>📊 Progresso no Curso</h4>
+      <div class="barra-item"><div class="barra-header"><span>🧠 Módulo 1 — Introdução à Lógica</span><span>100%</span></div><div class="barra"><div class="barra-fill" style="width:100%"></div></div></div>
+      <div class="barra-item"><div class="barra-header"><span>🎯 Módulo 2 — Scratch</span><span>80%</span></div><div class="barra"><div class="barra-fill" style="width:80%"></div></div></div>
+      <div class="barra-item"><div class="barra-header"><span>🐍 Módulo 3 — Python Básico</span><span>45%</span></div><div class="barra"><div class="barra-fill" style="width:45%"></div></div></div>
+      <div class="barra-item"><div class="barra-header"><span>🏆 Projeto Final</span><span>10%</span></div><div class="barra"><div class="barra-fill" style="width:10%"></div></div></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Avaliação</th><th>Nota</th><th>Situação</th></tr></thead>
+      <tbody>
+        <tr><td>Prova 1 — Lógica Básica</td><td><span class="nota-verde">9.0</span></td><td>✅ Aprovado</td></tr>
+        <tr><td>Prova 2 — Scratch</td><td><span class="nota-verde">8.5</span></td><td>✅ Aprovado</td></tr>
+        <tr><td>Prova 3 — Python</td><td><span class="nota-laranja">7.3</span></td><td>✅ Aprovado</td></tr>
+      </tbody>
+      <tfoot><tr><td><strong>Média Final</strong></td><td colspan="2"><strong style="color:#6C63FF;">8.3 ⭐</strong></td></tr></tfoot>
+    </table>
+
+  </div>
+  <footer><strong>EduPlay</strong> — Tecnologia que transforma crianças em criadores! 💜</footer>
+</div>
+
+<script>
+  function entrar() {
+    if (document.getElementById('login-mat').value === '1001' &&
+        document.getElementById('login-senha').value === '123456') {
+      document.getElementById('tela-login').style.display = 'none';
+      document.getElementById('tela-dash').style.display = 'block';
+    } else {
+      alert('❌ Matrícula ou senha incorretos.');
+    }
+  }
+  function sair() {
+    document.getElementById('tela-login').style.display = 'block';
+    document.getElementById('tela-dash').style.display = 'none';
+  }
+</script>
+</body>
+</html>

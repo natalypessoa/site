@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPlay — Cadastro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Edu<span>Play</span> 🚀</a>
+  <div>
+    <a href="index.html">🏠 Início</a>
+    <a href="cursos.html">📚 Cursos</a>
+    <a href="cadastro.html" class="ativo">📝 Cadastro</a>
+    <a href="dashboard.html">📊 Aluno</a>
+  </div>
+</nav>
+
+<div class="form-wrap">
+  <h2>📝 Formulário de Matrícula</h2>
+  <p class="sub">Preencha todos os campos obrigatórios.</p>
+
+  <div class="abas">
+    <button class="aba ativa" onclick="trocarAba('aluno')">👦 Aluno</button>
+    <button class="aba" onclick="trocarAba('responsavel')">👨‍👩‍👦 Responsável</button>
+    <button class="aba" onclick="trocarAba('professor')">🧑‍🏫 Professor</button>
+  </div>
+
+  <!-- ALUNO -->
+  <div class="secao-form ativa" id="sf-aluno">
+    <h3>👦 Dados do Aluno</h3>
+    <div class="linha">
+      <div class="campo" id="c-nome"><label>Nome Completo *</label><input id="aluno-nome" placeholder="Nome e sobrenome"><span class="msg-erro">Digite nome e sobrenome.</span></div>
+      <div class="campo" id="c-idade"><label>Idade (6–15) *</label><input id="aluno-idade" type="number" placeholder="Ex: 12"><span class="msg-erro">Idade entre 6 e 15.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-cpf"><label>CPF *</label><input id="aluno-cpf" placeholder="000.000.000-00" maxlength="14"><span class="msg-erro">Formato: 000.000.000-00</span></div>
+      <div class="campo" id="c-email"><label>E-mail *</label><input id="aluno-email" type="email" placeholder="email@exemplo.com"><span class="msg-erro">E-mail inválido.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-genero"><label>Gênero *</label>
+        <select id="aluno-genero"><option value="">Selecione</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
+        <span class="msg-erro">Selecione o gênero.</span>
+      </div>
+      <div class="campo" id="c-curso"><label>Curso *</label>
+        <select id="aluno-curso" onchange="atualizarTurma()"><option value="">Selecione</option>
+          <option>Lógica de Programação: Criando Meu Primeiro Jogo</option>
+          <option>Robótica Educativa: Programando no Mundo Real</option>
+          <option>Criatividade Digital com Minecraft: Criar e Explorar</option>
+          <option>Segurança em Redes: Usar a Internet com Segurança</option>
+        </select>
+        <span class="msg-erro">Selecione um curso.</span>
+      </div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-turno"><label>Turno *</label>
+        <select id="aluno-turno" onchange="atualizarTurma()"><option value="">Selecione</option><option>Matutino</option><option>Vespertino</option><option>Noturno</option></select>
+        <span class="msg-erro">Selecione o turno.</span>
+      </div>
+      <div class="campo" id="c-turma"><label>Turma *</label>
+        <select id="aluno-turma"><option value="">Selecione turno e curso</option></select>
+        <span class="msg-erro">Selecione a turma.</span>
+      </div>
+    </div>
+    <button class="btn-bloco secundario" onclick="trocarAba('responsavel')">Próximo →</button>
+  </div>
+
+  <!-- RESPONSAVEL -->
+  <div class="secao-form" id="sf-responsavel">
+    <h3>👨‍👩‍👦 Dados do Responsável</h3>
+    <div class="linha">
+      <div class="campo" id="c-rnome"><label>Nome Completo *</label><input id="resp-nome" placeholder="Nome e sobrenome"><span class="msg-erro">Digite nome e sobrenome.</span></div>
+      <div class="campo" id="c-ridade"><label>Idade (18–99) *</label><input id="resp-idade" type="number" placeholder="Ex: 38"><span class="msg-erro">Idade entre 18 e 99.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-rcpf"><label>CPF *</label><input id="resp-cpf" placeholder="000.000.000-00" maxlength="14"><span class="msg-erro">Formato: 000.000.000-00</span></div>
+      <div class="campo" id="c-remail"><label>E-mail *</label><input id="resp-email" type="email" placeholder="email@exemplo.com"><span class="msg-erro">E-mail inválido.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-rgenero"><label>Gênero *</label>
+        <select id="resp-genero"><option value="">Selecione</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
+        <span class="msg-erro">Selecione o gênero.</span>
+      </div>
+      <div class="campo" id="c-rtel"><label>Telefone *</label><input id="resp-tel" placeholder="(11) 99999-9999" maxlength="15"><span class="msg-erro">Telefone inválido.</span></div>
+    </div>
+    <div class="campo" id="c-rparent"><label>Parentesco *</label>
+      <select id="resp-parentesco"><option value="">Selecione</option><option>Pai</option><option>Mãe</option><option>Avô/Avó</option><option>Tio/Tia</option><option>Responsável Legal</option></select>
+      <span class="msg-erro">Selecione o parentesco.</span>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn-bloco secundario" onclick="trocarAba('aluno')">← Voltar</button>
+      <button class="btn-bloco" onclick="confirmarMatricula()">✅ Confirmar Matrícula</button>
+    </div>
+  </div>
+
+  <!-- PROFESSOR -->
+  <div class="secao-form" id="sf-professor">
+    <h3>🧑‍🏫 Professor Voluntário</h3>
+    <div class="linha">
+      <div class="campo" id="c-pnome"><label>Nome Completo *</label><input id="prof-nome" placeholder="Nome e sobrenome"><span class="msg-erro">Digite nome e sobrenome.</span></div>
+      <div class="campo" id="c-pidade"><label>Idade (18–99) *</label><input id="prof-idade" type="number" placeholder="Ex: 30"><span class="msg-erro">Idade entre 18 e 99.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-pcpf"><label>CPF *</label><input id="prof-cpf" placeholder="000.000.000-00" maxlength="14"><span class="msg-erro">Formato: 000.000.000-00</span></div>
+      <div class="campo" id="c-pemail"><label>E-mail *</label><input id="prof-email" type="email" placeholder="email@exemplo.com"><span class="msg-erro">E-mail inválido.</span></div>
+    </div>
+    <div class="linha">
+      <div class="campo" id="c-pgenero"><label>Gênero *</label>
+        <select id="prof-genero"><option value="">Selecione</option><option>Masculino</option><option>Feminino</option><option>Outro</option></select>
+        <span class="msg-erro">Selecione o gênero.</span>
+      </div>
+      <div class="campo" id="c-pespec"><label>Especialidade *</label>
+        <select id="prof-espec"><option value="">Selecione</option>
+          <option>Lógica de Programação: Criando Meu Primeiro Jogo</option>
+          <option>Robótica Educativa: Programando no Mundo Real</option>
+          <option>Criatividade Digital com Minecraft: Criar e Explorar</option>
+          <option>Segurança em Redes: Usar a Internet com Segurança</option>
+        </select>
+        <span class="msg-erro">Selecione a especialidade.</span>
+      </div>
+    </div>
+    <button class="btn-bloco" onclick="confirmarProfessor()">✅ Cadastrar Professor</button>
+  </div>
+
+  <div class="sucesso" id="msg-sucesso">
+    <div class="emoji">🎉</div>
+    <h3 id="sucesso-titulo">Matrícula confirmada!</h3>
+    <p id="sucesso-texto">Em breve você receberá um e-mail com mais informações.</p>
+    <a class="btn-sucesso" href="dashboard.html">Ver Área do Aluno 📊</a>
+  </div>
+</div>
+
+<footer><strong>EduPlay</strong> — Tecnologia que transforma crianças em criadores! 💜</footer>
+
+<script src="utils.js"></script>
+<script>
+  // Aplica máscaras
+  mascaraCpf(document.getElementById('aluno-cpf'));
+  mascaraCpf(document.getElementById('resp-cpf'));
+  mascaraCpf(document.getElementById('prof-cpf'));
+  mascaraTel(document.getElementById('resp-tel'));
+
+  function trocarAba(aba) {
+    const abas = document.querySelectorAll('.aba');
+    const forms = document.querySelectorAll('.secao-form');
+    const idx = ['aluno','responsavel','professor'].indexOf(aba);
+    abas.forEach((a, i) => a.classList.toggle('ativa', i === idx));
+    forms.forEach((f, i) => f.classList.toggle('ativa', i === idx));
+    document.getElementById('msg-sucesso').classList.remove('visivel');
+  }
+
+  function atualizarTurma() {
+    const turno = document.getElementById('aluno-turno').value;
+    const curso  = document.getElementById('aluno-curso').value;
+    const sel    = document.getElementById('aluno-turma');
+    sel.innerHTML = '<option value="">Selecione</option>';
+    if (!turno || !curso) return;
+    const pT = { Matutino:'M', Vespertino:'V', Noturno:'N' }[turno];
+    const pC = curso.startsWith('Lógica') ? 'LP' : curso.startsWith('Robótica') ? 'RE' : curso.startsWith('Criatividade') ? 'MC' : 'SR';
+    [1,2,3].forEach(n => {
+      const o = document.createElement('option');
+      o.textContent = o.value = `${pT}-${pC}-${n}`;
+      sel.appendChild(o);
+    });
+  }
+
+  function confirmarMatricula() {
+    const ok = [
+      checar('c-nome',    validar.nome(document.getElementById('aluno-nome').value)),
+      checar('c-idade',   validar.idade(document.getElementById('aluno-idade').value, 6, 15)),
+      checar('c-cpf',     validar.cpf(document.getElementById('aluno-cpf').value)),
+      checar('c-email',   validar.email(document.getElementById('aluno-email').value)),
+      checar('c-genero',  validar.sel(document.getElementById('aluno-genero').value)),
+      checar('c-curso',   validar.sel(document.getElementById('aluno-curso').value)),
+      checar('c-turno',   validar.sel(document.getElementById('aluno-turno').value)),
+      checar('c-turma',   validar.sel(document.getElementById('aluno-turma').value)),
+      checar('c-rnome',   validar.nome(document.getElementById('resp-nome').value)),
+      checar('c-ridade',  validar.idade(document.getElementById('resp-idade').value, 18, 99)),
+      checar('c-rcpf',    validar.cpf(document.getElementById('resp-cpf').value)),
+      checar('c-remail',  validar.email(document.getElementById('resp-email').value)),
+      checar('c-rgenero', validar.sel(document.getElementById('resp-genero').value)),
+      checar('c-rtel',    validar.tel(document.getElementById('resp-tel').value)),
+      checar('c-rparent', validar.sel(document.getElementById('resp-parentesco').value)),
+    ];
+    if (ok.includes(false)) { alert('⚠️ Corrija os campos em vermelho.'); return; }
+    const nome = document.getElementById('aluno-nome').value.trim();
+    mostrarSucesso('Matrícula confirmada! 🎉', `${nome} foi matriculado(a) com sucesso!`, true);
+  }
+
+  function confirmarProfessor() {
+    const ok = [
+      checar('c-pnome',  validar.nome(document.getElementById('prof-nome').value)),
+      checar('c-pidade', validar.idade(document.getElementById('prof-idade').value, 18, 99)),
+      checar('c-pcpf',   validar.cpf(document.getElementById('prof-cpf').value)),
+      checar('c-pemail', validar.email(document.getElementById('prof-email').value)),
+      checar('c-pgenero',validar.sel(document.getElementById('prof-genero').value)),
+      checar('c-pespec', validar.sel(document.getElementById('prof-espec').value)),
+    ];
+    if (ok.includes(false)) { alert('⚠️ Corrija os campos em vermelho.'); return; }
+    const nome = document.getElementById('prof-nome').value.trim();
+    mostrarSucesso('Professor cadastrado! 🧑‍🏫', `${nome} foi cadastrado(a) como voluntário(a)!`, false);
+  }
+</script>
+</body>
+</html>
