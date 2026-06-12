@@ -164,3 +164,32 @@ footer strong { color: white; }
   .linha, .duas-col { grid-template-columns: 1fr; }
   nav a { padding: 6px 10px; font-size: 0.8rem; }
 }
+/* ============================================================
+   PAINEL DO PROFESSOR (professor.html)
+   ============================================================ */
+/* Ajustes específicos do painel do professor */
+.dash-area > .abas { margin-bottom: 24px; }
+.barra-acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.barra-acoes .busca { flex: 1; min-width: 200px; }
+.barra-acoes input, .barra-acoes select {
+  padding: 10px 12px; border: 2px solid var(--borda); border-radius: 12px; font-size: 0.9rem;
+}
+.tag-tipo { font-size: 0.72rem; padding: 3px 10px; border-radius: 10px; font-weight: bold; }
+.tipo-teorica { background: #ede7f6; color: var(--roxo); }
+.tipo-pratica { background: #fff3e0; color: #e65100; }
+.vazio { color: var(--cinza); font-size: 0.9rem; text-align: center; padding: 18px; }
+.freq-aluno {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; border: 2px solid var(--borda); border-radius: 12px; margin-bottom: 10px;
+}
+.freq-aluno.evadido { opacity: 0.6; background: #fafafa; }
+.freq-botoes button {
+  border: 2px solid var(--borda); background: white; padding: 6px 14px;
+  border-radius: 10px; font-weight: bold; cursor: pointer; margin-left: 6px;
+}
+.freq-botoes button.sel-p { background: var(--verde); color: white; border-color: var(--verde); }
+.freq-botoes button.sel-f { background: var(--vermelho); color: white; border-color: var(--vermelho); }
+.aviso-evasao { font-size: 0.78rem; color: #e65100; font-weight: bold; }
+.rel-curso { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0EDE0; font-size: 0.88rem; }
+.rel-curso:last-child { border-bottom: none; }
+.rel-curso span:last-child { font-weight: bold; color: var(--roxo); }

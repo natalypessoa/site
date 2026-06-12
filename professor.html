@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPlay — Painel do Professor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Edu<span>Play</span> 🚀</a>
+  <div>
+    <a href="index.html">🏠 Início</a>
+    <a href="cursos.html">📚 Cursos</a>
+    <a href="cadastro.html">📝 Cadastro</a>
+    <a href="dashboard.html">📊 Aluno</a>
+    <a href="professor.html" class="ativo">🧑‍🏫 Professor</a>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="tela-login">
+  <div class="dash-login">
+    <div class="emoji">🧑‍🏫</div>
+    <h2>Painel do Professor</h2>
+    <p>Demo: ID <strong>1</strong> ou CPF · senha <strong>123456</strong></p>
+    <div class="campo" id="c-login-id"><label>ID ou CPF do Professor</label><input id="login-id" value="1" placeholder="Ex: 1 ou 123.456.789-00"><span class="msg-erro">ID/CPF ou senha incorretos.</span></div>
+    <div class="campo"><label>Senha</label><input id="login-senha" type="password" value="123456"></div>
+    <button class="btn-bloco" onclick="entrar()">Entrar 🚀</button>
+  </div>
+</div>
+
+<!-- PAINEL (aparece só depois do login) -->
+<div id="tela-painel" style="display:none">
+
+<div class="dash-area">
+
+  <div class="dash-topo">
+    <div>
+      <h2 id="boas-vindas">Olá, Professor! 👋</h2>
+      <small id="sub-prof">Professor Voluntário</small>
+    </div>
+    <button class="btn-sair" onclick="sair()">Sair 🚪</button>
+  </div>
+
+  <div class="banner">
+    <div>
+      <h3>Bem-vindo de volta! 🚀</h3>
+      <p id="banner-espec">Especialidade: —</p>
+      <p style="margin-top:6px; opacity:.75; font-size:.85rem;">Gerencie aulas, frequência e relatórios. 🌟</p>
+    </div>
+    <div class="emoji">🧑‍🏫</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="emoji">🧑‍🏫</div><div class="valor" id="st-prof">0</div><div class="rotulo">Professores</div></div>
+    <div class="stat"><div class="emoji">📚</div><div class="valor" id="st-aulas">0</div><div class="rotulo">Aulas</div></div>
+    <div class="stat"><div class="emoji">👦</div><div class="valor" id="st-alunos">0</div><div class="rotulo">Alunos Ativos</div></div>
+    <div class="stat"><div class="emoji">📅</div><div class="valor" id="st-freq">0%</div><div class="rotulo">Frequência Média</div></div>
+  </div>
+
+  <!-- ABAS -->
+  <div class="abas">
+    <button class="aba ativa" onclick="trocarAba(0)">👤 Professores</button>
+    <button class="aba" onclick="trocarAba(1)">📚 Aulas</button>
+    <button class="aba" onclick="trocarAba(2)">✅ Frequência</button>
+    <button class="aba" onclick="trocarAba(3)">📊 Relatório</button>
+  </div>
+
+  <!-- ============ ABA 1: PROFESSORES (CRUD) ============ -->
+  <div class="secao-form ativa">
+    <div class="caixa">
+      <h4>📋 Professores Cadastrados</h4>
+      <div class="barra-acoes">
+        <select id="modo-busca" onchange="renderProfessores()">
+          <option value="nome">Buscar por Nome</option>
+          <option value="cpf">Buscar por CPF</option>
+          <option value="id">Buscar por ID</option>
+        </select>
+        <input class="busca" id="busca-prof" placeholder="🔍 Digite o termo de busca" oninput="renderProfessores()">
+      </div>
+      <table>
+        <thead><tr><th>ID</th><th>Nome</th><th>Idade</th><th>CPF</th><th>Especialidade</th></tr></thead>
+        <tbody id="tbody-prof"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ ABA 2: AULAS ============ -->
+  <div class="secao-form">
+    <div class="caixa" style="margin-bottom:20px;">
+      <h4>📚 Cadastrar Aula</h4>
+      <div class="linha">
+        <div class="campo" id="c-aprof"><label>Professor Voluntário *</label>
+          <select id="aula-prof"></select>
+          <span class="msg-erro">Selecione o professor.</span>
+        </div>
+        <div class="campo" id="c-acurso"><label>Curso *</label>
+          <select id="aula-curso"></select>
+          <span class="msg-erro">Selecione o curso.</span>
+        </div>
+      </div>
+      <div class="campo" id="c-atema"><label>Tema da Aula *</label><input id="aula-tema" placeholder="Ex: Introdução à Lógica"><span class="msg-erro">Digite o tema.</span></div>
+      <div class="campo" id="c-atipo"><label>Tipo *</label>
+        <select id="aula-tipo" onchange="atualizarLabelDetalhe()">
+          <option value="">Selecione</option>
+          <option value="Teórica">Teórica</option>
+          <option value="Prática">Prática</option>
+        </select>
+        <span class="msg-erro">Selecione o tipo.</span>
+      </div>
+      <div class="campo" id="c-adetalhe"><label id="label-detalhe">Conteúdo / Atividade *</label><input id="aula-detalhe" placeholder="Descreva o conteúdo ou a atividade"><span class="msg-erro">Preencha este campo.</span></div>
+      <button class="btn-bloco" onclick="salvarAula()">✅ Cadastrar Aula</button>
+    </div>
+
+    <div class="caixa">
+      <h4>📋 Aulas Cadastradas</h4>
+      <table>
+        <thead><tr><th>Tipo</th><th>Tema</th><th>Curso</th><th>Professor</th><th>Detalhe</th></tr></thead>
+        <tbody id="tbody-aulas"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ ABA 3: FREQUÊNCIA ============ -->
+  <div class="secao-form">
+    <div class="caixa" style="margin-bottom:20px;">
+      <h4>✅ Registrar Frequência</h4>
+      <div class="campo">
+        <label>Selecione a Aula *</label>
+        <select id="freq-aula" onchange="carregarAlunosFreq()">
+          <option value="">Selecione uma aula</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="caixa" id="caixa-freq" style="display:none;">
+      <h4 id="freq-info"></h4>
+      <div id="lista-freq"></div>
+      <button class="btn-bloco" onclick="salvarFrequencia()" style="margin-top:8px;">💾 Salvar Frequência</button>
+    </div>
+  </div>
+
+  <!-- ============ ABA 4: RELATÓRIO ============ -->
+  <div class="secao-form">
+    <div class="caixa" style="margin-bottom:20px;">
+      <h4>📚 Aulas Cadastradas</h4>
+      <table>
+        <thead><tr><th>Tipo</th><th>Tema</th><th>Curso</th><th>Professor</th></tr></thead>
+        <tbody id="rel-aulas"></tbody>
+      </table>
+    </div>
+
+    <div class="caixa" style="margin-bottom:20px;">
+      <h4>👦 Frequência dos Alunos</h4>
+      <table>
+        <thead><tr><th>Matrícula</th><th>Nome</th><th>Curso</th><th>Presenças</th><th>Faltas</th><th>Frequência</th></tr></thead>
+        <tbody id="rel-freq"></tbody>
+      </table>
+    </div>
+
+    <div class="caixa">
+      <h4>📊 Aulas por Curso</h4>
+      <div id="rel-por-curso"></div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- fim #tela-painel -->
+
+<footer><strong>EduPlay</strong> — Tecnologia que transforma crianças em criadores! 💜</footer>
+
+<script src="utils.js"></script>
+<script>
+  /* ===================================================================
+     DADOS DE EXEMPLO (em memória — reiniciam ao recarregar a página)
+     Espelham a lógica do back-end em Java: Professor, Aula (Teórica/
+     Prática), Crianca (com evasão e frequência).
+     =================================================================== */
+  const CURSOS = [
+    "Lógica de Programação: Criando Meu Primeiro Jogo",
+    "Robótica Educativa: Programando no Mundo Real",
+    "Criatividade Digital com Minecraft: Criar e Explorar",
+    "Segurança em Redes: Usar a Internet com Segurança"
+  ];
+
+  let proximoId = 4;
+  let professores = [
+    { id: 1, nome: "Carlos A. Souza",  cpf: "123.456.789-00", idade: 34, email: "carlos@eduplay.com",  genero: "Masculino", especialidade: CURSOS[0] },
+    { id: 2, nome: "Mariana Lopes",    cpf: "987.654.321-00", idade: 29, email: "mariana@eduplay.com", genero: "Feminino",  especialidade: CURSOS[1] },
+    { id: 3, nome: "Rafael Andrade",   cpf: "456.789.123-00", idade: 41, email: "rafael@eduplay.com",  genero: "Masculino", especialidade: CURSOS[3] },
+  ];
+
+  let aulas = [
+    { tema: "Introdução à Lógica", professor: "Carlos A. Souza", curso: CURSOS[0], tipo: "Teórica", detalhe: "Algoritmos e sequência de passos" },
+    { tema: "Primeiro Jogo no Scratch", professor: "Carlos A. Souza", curso: CURSOS[0], tipo: "Prática", detalhe: "Criar um jogo de labirinto" },
+    { tema: "Montando o Robô", professor: "Mariana Lopes", curso: CURSOS[1], tipo: "Prática", detalhe: "Montagem com Arduino e sensores" },
+  ];
+
+  let alunos = [
+    { matricula: 1001, nome: "Pedro Henrique Silva", curso: CURSOS[0], evasao: false, presencas: 15, faltas: 3 },
+    { matricula: 1002, nome: "Ana Clara Souza",      curso: CURSOS[0], evasao: false, presencas: 12, faltas: 2 },
+    { matricula: 1003, nome: "Lucas Martins",        curso: CURSOS[1], evasao: false, presencas: 9,  faltas: 1 },
+    { matricula: 1004, nome: "Beatriz Lima",         curso: CURSOS[1], evasao: true,  presencas: 4,  faltas: 8 },
+    { matricula: 1005, nome: "Gabriel Rocha",        curso: CURSOS[3], evasao: false, presencas: 7,  faltas: 0 },
+  ];
+
+  /* ===================== LOGIN ===================== */
+  function entrar() {
+    const termo = document.getElementById('login-id').value.trim();
+    const senha = document.getElementById('login-senha').value;
+    // Aceita ID ou CPF do professor + senha demo
+    const prof = professores.find(p => String(p.id) === termo || p.cpf === termo);
+    if (prof && senha === '123456') {
+      document.getElementById('c-login-id').classList.remove('tem-erro');
+      document.getElementById('tela-login').style.display = 'none';
+      document.getElementById('tela-painel').style.display = 'block';
+      document.getElementById('boas-vindas').textContent = `Olá, ${prof.nome}! 👋`;
+      document.getElementById('sub-prof').textContent = `Professor Voluntário · ID #${prof.id}`;
+      document.getElementById('banner-espec').textContent = `Especialidade: ${prof.especialidade}`;
+      atualizarStats();
+    } else {
+      document.getElementById('c-login-id').classList.add('tem-erro');
+    }
+  }
+
+  function atualizarStats() {
+    const ativos = alunos.filter(a => !a.evasao);
+    document.getElementById('st-prof').textContent  = professores.length;
+    document.getElementById('st-aulas').textContent = aulas.length;
+    document.getElementById('st-alunos').textContent = ativos.length;
+    // Frequência média dos alunos ativos
+    let soma = 0, cont = 0;
+    ativos.forEach(a => {
+      const total = a.presencas + a.faltas;
+      if (total > 0) { soma += a.presencas / total * 100; cont++; }
+    });
+    const media = cont === 0 ? 0 : Math.round(soma / cont);
+    document.getElementById('st-freq').textContent = media + '%';
+  }
+
+  function sair() {
+    document.getElementById('tela-painel').style.display = 'none';
+    document.getElementById('tela-login').style.display = 'block';
+    document.getElementById('login-senha').value = '';
+  }
+
+  /* ===================== TROCA DE ABA ===================== */
+  function trocarAba(idx) {
+    document.querySelectorAll('.aba').forEach((a, i) => a.classList.toggle('ativa', i === idx));
+    document.querySelectorAll('.secao-form').forEach((s, i) => s.classList.toggle('ativa', i === idx));
+    if (idx === 2) preencherSelectAulasFreq();
+    if (idx === 3) renderRelatorio();
+  }
+
+  /* ===================== PREENCHER SELECTS ===================== */
+  function preencherSelectsCurso() {
+    const selAula = document.getElementById('aula-curso');
+    selAula.innerHTML = '<option value="">Selecione</option>';
+    CURSOS.forEach(c => {
+      const o = document.createElement('option');
+      o.textContent = o.value = c;
+      selAula.appendChild(o);
+    });
+  }
+
+  function preencherSelectProfessores() {
+    const sel = document.getElementById('aula-prof');
+    sel.innerHTML = '<option value="">Selecione</option>';
+    professores.forEach(p => {
+      const o = document.createElement('option');
+      o.textContent = `${p.nome} — ${p.especialidade}`;
+      o.value = p.nome;
+      sel.appendChild(o);
+    });
+  }
+
+  /* ===================== ABA 1: LISTAGEM DE PROFESSORES ===================== */
+  function renderProfessores() {
+    const termo = document.getElementById('busca-prof').value.trim().toLowerCase();
+    const modo  = document.getElementById('modo-busca').value;
+    const tbody = document.getElementById('tbody-prof');
+    const lista = professores.filter(p => {
+      if (termo === '') return true;
+      if (modo === 'cpf') return p.cpf.includes(termo);
+      if (modo === 'id')  return String(p.id) === termo.replace('#', '');
+      return p.nome.toLowerCase().includes(termo); // nome
+    });
+    if (lista.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="vazio">Nenhum professor encontrado.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = lista.map(p => `
+      <tr>
+        <td>#${p.id}</td>
+        <td>${p.nome}</td>
+        <td>${p.idade}</td>
+        <td>${p.cpf}</td>
+        <td style="font-size:.82rem;">${p.especialidade}</td>
+      </tr>`).join('');
+  }
+
+  /* ===================== ABA 2: AULAS ===================== */
+  function atualizarLabelDetalhe() {
+    const tipo = document.getElementById('aula-tipo').value;
+    const label = document.getElementById('label-detalhe');
+    const input = document.getElementById('aula-detalhe');
+    if (tipo === 'Teórica')      { label.textContent = 'Conteúdo Teórico *';  input.placeholder = 'Descreva o conteúdo teórico'; }
+    else if (tipo === 'Prática') { label.textContent = 'Atividade Prática *'; input.placeholder = 'Descreva a atividade prática'; }
+    else                         { label.textContent = 'Conteúdo / Atividade *'; }
+  }
+
+  function salvarAula() {
+    const prof    = document.getElementById('aula-prof').value;
+    const curso   = document.getElementById('aula-curso').value;
+    const tema    = document.getElementById('aula-tema').value.trim();
+    const tipo    = document.getElementById('aula-tipo').value;
+    const detalhe = document.getElementById('aula-detalhe').value.trim();
+
+    const ok = [
+      checar('c-aprof',    validar.sel(prof)),
+      checar('c-acurso',   validar.sel(curso)),
+      checar('c-atema',    tema.length > 0),
+      checar('c-atipo',    validar.sel(tipo)),
+      checar('c-adetalhe', detalhe.length > 0),
+    ];
+    if (ok.includes(false)) { alert('⚠️ Corrija os campos em vermelho.'); return; }
+
+    aulas.push({ tema, professor: prof, curso, tipo, detalhe });
+    alert(`✅ Aula ${tipo} cadastrada!`);
+    ['aula-tema','aula-detalhe'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('aula-tipo').value = '';
+    atualizarLabelDetalhe();
+    renderAulas();
+    atualizarStats();
+  }
+
+  function renderAulas() {
+    const tbody = document.getElementById('tbody-aulas');
+    if (aulas.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="vazio">Nenhuma aula cadastrada.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = aulas.map(a => `
+      <tr>
+        <td><span class="tag-tipo ${a.tipo === 'Teórica' ? 'tipo-teorica' : 'tipo-pratica'}">${a.tipo}</span></td>
+        <td>${a.tema}</td>
+        <td style="font-size:.82rem;">${a.curso}</td>
+        <td>${a.professor}</td>
+        <td style="font-size:.82rem; color:#666;">${a.detalhe}</td>
+      </tr>`).join('');
+  }
+
+  /* ===================== ABA 3: FREQUÊNCIA ===================== */
+  function preencherSelectAulasFreq() {
+    const sel = document.getElementById('freq-aula');
+    sel.innerHTML = '<option value="">Selecione uma aula</option>';
+    aulas.forEach((a, i) => {
+      const o = document.createElement('option');
+      o.value = i;
+      o.textContent = `[${a.tipo}] ${a.tema} — ${a.curso}`;
+      sel.appendChild(o);
+    });
+    document.getElementById('caixa-freq').style.display = 'none';
+  }
+
+  let presencasTemp = {}; // matricula -> true/false
+
+  function carregarAlunosFreq() {
+    const idx = document.getElementById('freq-aula').value;
+    const caixa = document.getElementById('caixa-freq');
+    if (idx === '') { caixa.style.display = 'none'; return; }
+
+    const aula = aulas[idx];
+    const daTurma = alunos.filter(a => a.curso === aula.curso);
+    presencasTemp = {};
+
+    document.getElementById('freq-info').textContent =
+      `Curso: ${aula.curso} | Aula: ${aula.tema}`;
+
+    const lista = document.getElementById('lista-freq');
+    if (daTurma.length === 0) {
+      lista.innerHTML = '<p class="vazio">Nenhum aluno matriculado neste curso.</p>';
+      caixa.style.display = 'block';
+      return;
+    }
+
+    lista.innerHTML = daTurma.map(al => {
+      if (al.evasao) {
+        // Igual ao back-end: aluno evadido é ignorado na frequência
+        return `<div class="freq-aluno evadido">
+          <span>${al.nome} <small>(ID: ${al.matricula})</small></span>
+          <span class="aviso-evasao">⚠️ EVADIDO — ignorado</span>
+        </div>`;
+      }
+      presencasTemp[al.matricula] = true; // presente por padrão
+      return `<div class="freq-aluno">
+        <span>${al.nome} <small>(ID: ${al.matricula})</small></span>
+        <span class="freq-botoes" id="fb-${al.matricula}">
+          <button class="sel-p" onclick="marcar(${al.matricula}, true)">Presente</button>
+          <button onclick="marcar(${al.matricula}, false)">Ausente</button>
+        </span>
+      </div>`;
+    }).join('');
+    caixa.style.display = 'block';
+  }
+
+  function marcar(matricula, presente) {
+    presencasTemp[matricula] = presente;
+    const cont = document.getElementById('fb-' + matricula);
+    const [btnP, btnF] = cont.querySelectorAll('button');
+    btnP.classList.toggle('sel-p', presente);
+    btnF.classList.toggle('sel-f', !presente);
+  }
+
+  function salvarFrequencia() {
+    let qtd = 0;
+    for (const mat in presencasTemp) {
+      const al = alunos.find(a => a.matricula == mat);
+      if (!al) continue;
+      if (presencasTemp[mat]) al.presencas++; else al.faltas++;
+      qtd++;
+    }
+    if (qtd === 0) { alert('Nenhum aluno para registrar nesta aula.'); return; }
+    alert('✅ Frequência registrada com sucesso!');
+    atualizarStats();
+    document.getElementById('freq-aula').value = '';
+    document.getElementById('caixa-freq').style.display = 'none';
+  }
+
+  /* ===================== ABA 4: RELATÓRIO ===================== */
+  function renderRelatorio() {
+    // Aulas
+    const relAulas = document.getElementById('rel-aulas');
+    relAulas.innerHTML = aulas.length === 0
+      ? '<tr><td colspan="4" class="vazio">Nenhuma aula cadastrada.</td></tr>'
+      : aulas.map(a => `
+        <tr>
+          <td><span class="tag-tipo ${a.tipo === 'Teórica' ? 'tipo-teorica' : 'tipo-pratica'}">${a.tipo}</span></td>
+          <td>${a.tema}</td>
+          <td style="font-size:.82rem;">${a.curso}</td>
+          <td>${a.professor}</td>
+        </tr>`).join('');
+
+    // Frequência dos alunos
+    const relFreq = document.getElementById('rel-freq');
+    relFreq.innerHTML = alunos.map(al => {
+      const total = al.presencas + al.faltas;
+      const pct = total === 0 ? 0 : Math.round(al.presencas / total * 100);
+      const cor = pct >= 75 ? 'nota-verde' : 'nota-laranja';
+      const status = al.evasao ? ' 🚫 Evadido' : '';
+      return `<tr>
+        <td>#${al.matricula}</td>
+        <td>${al.nome}${status}</td>
+        <td style="font-size:.82rem;">${al.curso}</td>
+        <td>${al.presencas}</td>
+        <td>${al.faltas}</td>
+        <td><span class="${cor}">${pct}%</span></td>
+      </tr>`;
+    }).join('');
+
+    // Aulas por curso
+    const porCurso = document.getElementById('rel-por-curso');
+    porCurso.innerHTML = CURSOS.map(c => {
+      const n = aulas.filter(a => a.curso === c).length;
+      return `<div class="rel-curso"><span>${c}</span><span>${n} aula(s)</span></div>`;
+    }).join('');
+  }
+
+  /* ===================== INICIALIZAÇÃO ===================== */
+  preencherSelectsCurso();
+  preencherSelectProfessores();
+  renderProfessores();
+  renderAulas();
+  atualizarLabelDetalhe();
+</script>
+</body>
+</html>
